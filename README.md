@@ -73,6 +73,8 @@ ejercicios indicados.
 - Inserte una imagen mostrando la dependencia entre los coeficientes 2 y 3 de las tres parametrizaciones
   para una señal de prueba.
   
+  <img width="803" alt="coef2,3" src="https://user-images.githubusercontent.com/61736138/82123020-60510600-9797-11ea-95f4-fe4c97486300.png">
+  
   + ¿Cuál de ellas le parece que contiene más información?
   
   Las parametrización que contiene más información son la MFCC y la LPCC debido a que los coeficientes están más incorrelados entre si; es decir, cada coeficiente nos aporta información distitna y no repetida. En el caso que estuvieran bastante correlados, la información que obtendriamos sería redundante en ocasiones, como podemos observar en el LP debido a que el coeficiente i+1 se calcula a aprtir del i. La correlación equivale a una cierta linealidad en la representación en la gráfica (como una especie de recta), mientras que la incorrelación, corresponde a la dispersión.
@@ -80,14 +82,23 @@ ejercicios indicados.
 
 - Usando el programa <code>pearson</code>, obtenga los coeficientes de correlación normalizada entre los
   parámetros 2 y 3, y rellene la tabla siguiente con los valores obtenidos.
+  
+  Usando el comando el comando `pearson work/lp/BLOCK00/SES000/*.lp` se nos muestra una lista en orden descendiente de los coeficientes pearson entre todas las combinaciones posibles de coeficientes. Aplicando el comando superior también con los archivos .lpcc y .mfcc podemos rellenar la siguiente tabla:
 
-  |                        | LP   | LPCC | MFCC |
-  |------------------------|:----:|:----:|:----:|
-  | &rho;<sub>x</sub>[2,3] |      |      |      |
+  |                        |    LP     |    LPCC    |    MFCC    |
+  |------------------------|:---------:|:----------:|:----------:|
+  | &rho;<sub>x</sub>[2,3] | -0.816179 |  0.206626  |  0.0946808 |
   
   + Compare los resultados de <code>pearson</code> con los obtenidos gráficamente.
   
+  Como se puede observar en la siguiente gráfica, el coeficiente pearson da cierta infromación acerca de la correlación entre coeficientes, de tal manera que cuanto más cercano sea a 0, más incorreladas y dispersas estan las muestras y, como más cercano a +-1 sea, mayor correlación y linealidad hay. Por lo tanto, observamos que el que presenta un coeficiente pearson más cercano a 0 es el MFCC que como ya habíamos dicho, era la parametrización más incorrelada y, el que presenta un coeficiente más eleveado es el LP, presentando cierta linealidad en su gráfico.
+  
+  ![Correlation_coefficient](https://user-images.githubusercontent.com/61736138/82122694-634af700-9795-11ea-9353-5d046084b778.png)
+
+  
 - Según la teoría, ¿qué parámetros considera adecuados para el cálculo de los coeficientes LPCC y MFCC?
+
+Teóricamente, los valores adecuados para el orden del LPCC varian entre 8 y 12 puesto que siguen la formula (3/2)·p y,por otro lado, para el MFCC los valores presentan un rango distinto puesto que oscilan entre 14 y 20 coeficientes, en función del uso de la aplicación.
 
 ### Entrenamiento y visualización de los GMM.
 
@@ -107,9 +118,11 @@ Complete el código necesario para realizar reconociminto del locutor y optimice
 - Inserte una tabla con la tasa de error obtenida en el reconocimiento de los locutores de la base de datos
   SPEECON usando su mejor sistema de reconocimiento para los parámetros LP, LPCC y MFCC.
   
-  |                        |  LP  | LPCC | MFCC |
-  |------------------------|:----:|:----:|:----:|
-  |       Error rate       |      |      |      |
+  |                        |    LP    |   LPCC   |   MFCC   |
+  |------------------------|:--------:|:--------:|:--------:|
+  |      nºerrors          |    58    |    15    |    10    |
+  |       total            |   785    |   785    |   785    |
+  |       Error rate       |   7,39%  |   1,91%  |  1,27%   |
 
 ### Verificación del locutor.
 
@@ -120,11 +133,13 @@ Complete el código necesario para realizar verificación del locutor y optimice
   pérdidas, y el score obtenido usando la parametrización que mejor resultado le hubiera dado en la tarea
   de reconocimiento.
   
-  |                        |    LP   |   LPCC   |   MFCC   |
-  |------------------------|:-------:|:--------:|:--------:|
-  |         Missed         |         |          |          |
-  |     False alarm|       |         |          |	   |
-
+  |                      |         MFCC       |  
+  |----------------------|:------------------:|
+  |        Threshold     |    0,645843653376  |                   
+  |         Missed       |    41/250 = 0,164  |                   	   
+  |       False alarm    |     0/1000 = 0     |  
+  |     COST DETECTION   |      **16.4**      |  
+ 
  
 ### Test final y trabajo de ampliación.
 

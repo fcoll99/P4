@@ -107,9 +107,20 @@ Complete el código necesario para entrenar modelos GMM.
 - Inserte una gráfica que muestre la función de densidad de probabilidad modelada por el GMM de un locutor
   para sus dos primeros coeficientes de MFCC.
   
+ <img width="420" alt="ses061" src="https://user-images.githubusercontent.com/61736138/82124173-96918400-979d-11ea-90ce-7dc5342cd2fb.png">
+  
+  <img width="445" alt="gmm ses209" src="https://user-images.githubusercontent.com/61736138/82123843-cf305e00-979b-11ea-8979-2fe91eb3a8ac.png">
+  
 - Inserte una gráfica que permita comparar los modelos y poblaciones de dos locutores distintos (la gŕafica
   de la página 20 del enunciado puede servirle de referencia del resultado deseado). Analice la capacidad
   del modelado GMM para diferenciar las señales de uno y otro.
+  
+<img width="415" alt="gm061 mfcc061" src="https://user-images.githubusercontent.com/61736138/82124445-61863100-979f-11ea-85f5-cbef444bd0c2.png"><img width="437" alt="gm061 mfcc209" src="https://user-images.githubusercontent.com/61736138/82124448-66e37b80-979f-11ea-9093-bad3e469c972.png">
+
+<img width="421" alt="gm209 mfcc209" src="https://user-images.githubusercontent.com/61736138/82124453-6b0f9900-979f-11ea-83ad-6578711b1370.png"><img width="422" alt="gm209 mfcc061" src="https://user-images.githubusercontent.com/61736138/82124456-6ea32000-979f-11ea-8beb-29d58f593fb1.png">
+
+Hemos representado el locutor 061 en color verde (tanto su población como sus GMM) y el locutor 209 en color rojo. Podemos observar, como el modelado GMM es capaz de diferenciar considerablemente bien las señales de uno u otro. En el caso de que la población no corresponda al locutor, se pueden apreciar claros huecos en blanco (escasa población) que la GMM detecta como población elevada y al contrario, sitios donde hay mucha población que la GMM no incluye en su área. Por contra, si miramos los casos en los que si se trabaja con su correspondiente población, la aproximación es bastante buena.
+
 
 ### Reconocimiento del locutor.
 

@@ -49,6 +49,8 @@ ejercicios indicados.
   Primeramente, observamos el comando orincipal para la extracción de caracteristicas que encadena los métodos acabados de explicar(sox, X2X, FRAME, WINDOW y LPC) y redireccionamos el resultado a un archivo base.FEAT siendo FEAT al tipo de parámetro (lp, lpcc o mfcc). Una vez almacenado el resultado de la parametrización en un fichero temporal, hemos de almacenar la información en un fichero fmatrix, cuyo numero de filas será 1+orden (debido a que el primer elemento correspnde a la ganancia de predicción) y, cuyo numero de columnas será el numero de tramas. Este es más dificl de calcular que el numero de filas ya que depende de la longitud de la señal y es variable; por lo tanto, usamos el comando x2x para convertiro a un formato con el que podamos contar el numero de líneas mediante wc-l.
 
   * ¿Por qué es conveniente usar este formato (u otro parecido)?
+  
+  Este formato nos permite tener los datos de una forma mucho más clara y accesible.
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales de predicción lineal
   (LPCC) en su fichero <code>scripts/wav2lpcc.sh</code>:
@@ -72,6 +74,9 @@ ejercicios indicados.
   para una señal de prueba.
   
   + ¿Cuál de ellas le parece que contiene más información?
+  
+  Las parametrización que contiene más información son la MFCC y la LPCC debido a que los coeficientes están más incorrelados entre si; es decir, cada coeficiente nos aporta información distitna y no repetida. En el caso que estuvieran bastante correlados, la información que obtendriamos sería redundante en ocasiones, como podemos observar en el LP debido a que el coeficiente i+1 se calcula a aprtir del i. La correlación equivale a una cierta linealidad en la representación en la gráfica (como una especie de recta), mientras que la incorrelación, corresponde a la dispersión.
+  
 
 - Usando el programa <code>pearson</code>, obtenga los coeficientes de correlación normalizada entre los
   parámetros 2 y 3, y rellene la tabla siguiente con los valores obtenidos.
@@ -101,6 +106,10 @@ Complete el código necesario para realizar reconociminto del locutor y optimice
 
 - Inserte una tabla con la tasa de error obtenida en el reconocimiento de los locutores de la base de datos
   SPEECON usando su mejor sistema de reconocimiento para los parámetros LP, LPCC y MFCC.
+  
+  |                        |  LP  | LPCC | MFCC |
+  |------------------------|:----:|:----:|:----:|
+  |       Error rate       |      |      |      |
 
 ### Verificación del locutor.
 
@@ -110,6 +119,12 @@ Complete el código necesario para realizar verificación del locutor y optimice
   de verificación de SPEECON. La tabla debe incluir el umbral óptimo, el número de falsas alarmas y de
   pérdidas, y el score obtenido usando la parametrización que mejor resultado le hubiera dado en la tarea
   de reconocimiento.
+  
+  |                        |    LP   |   LPCC   |   MFCC   |
+  |------------------------|:-------:|:--------:|:--------:|
+  |         Missed         |         |          |          |
+  |     False alarm|       |         |          |	   |
+
  
 ### Test final y trabajo de ampliación.
 

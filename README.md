@@ -31,17 +31,40 @@ ejercicios indicados.
 
 - Analice el script `wav2lp.sh` y explique la misión de los distintos comandos, y sus opciones, involucrados
   en el *pipeline* principal (`sox`, `$X2X`, `$FRAME`, `$WINDOW` y `$LPC`).
+  
+   -**sox**:Todas las señales y ficheros que SPTK es capaz de leer, tienen el mismo formato de sucesión de reales en coma foltante de 32 bits sin ningun tipo de cabecera y forato (es decir raw); por lo tanto, el comando sox sirve para generar una señal con el formato adecuado a partir de una señal con otro formato (por ejemplo WAVE). En definitiva, convierte el archivo de entrada en formato raw.
+   
+   -**$X2X**:El comando X2X tal y como indica su nombre en inglés, permite la conversión a distinto formato de audio; convierte la señal de entrada a reales en coma flotante de 32 bits sin cabecera.
+   
+   -**$FRAME**: Divide la señal de entrada en tramas de X (comando -l)muestras con desplazamiento de ventana de Y(comando -p) muestras. En nuestro caso tramas de 240muestras y deslazamiento de 80muestras y, teniendo en cuenta que en esta práctica la frecuencia de muestreo es de 8kHz, equivale a 30ms y 10ms respectivamente.
+   
+   -**$WINDOW**: Multiplica cada trama por la ventana asignada (opción por defecto: Blackman).
+   
+   -**$LPC**: Calcula los `lpc_order` primeros coeficientes de predicción lineal, precedidos por el factor de ganancia del predictor.
+  
 
 - Explique el procedimiento seguido para obtener un fichero de formato *fmatrix* a partir de los ficheros
   de salida de SPTK (líneas 41 a 47 del script `wav2lp.sh`).
+  
+  Primeramente, observamos el comando orincipal para la extracción de caracteristicas que encadena los métodos acabados de explicar(sox, X2X, FRAME, WINDOW y LPC) y redireccionamos el resultado a un archivo base.FEAT siendo FEAT al tipo de parámetro (lp, lpcc o mfcc). Una vez almacenado el resultado de la parametrización en un fichero temporal, hemos de almacenar la información en un fichero fmatrix, cuyo numero de filas será 1+orden (debido a que el primer elemento correspnde a la ganancia de predicción) y, cuyo numero de columnas será el numero de tramas. Este es más dificl de calcular que el numero de filas ya que depende de la longitud de la señal y es variable; por lo tanto, usamos el comando x2x para convertiro a un formato con el que podamos contar el numero de líneas mediante wc-l.
 
   * ¿Por qué es conveniente usar este formato (u otro parecido)?
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales de predicción lineal
   (LPCC) en su fichero <code>scripts/wav2lpcc.sh</code>:
+  
+  ``` cpp
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 400 -p 80 | $WINDOW -l 400 -L 512 |
+	$LPC -l 400 -m $lpc_order | $lpc2c -m $lpc_order -M $num_cepstral_coef> $base.lpcc
+  ```
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales en escala Mel (MFCC) en
   su fichero <code>scripts/wav2mfcc.sh</code>:
+  
+  ``` cpp
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
+	$MFCC -l 240 -m $mfcc_order > $base.mfcc
+  ```
 
 ### Extracción de características.
 

@@ -14,14 +14,16 @@ cleanup() {
    \rm -f $base.*
 }
 
-if [[ $# != 3 ]]; then
-   echo "$0 lpc_order input.wav output.lp"
+if [[ $# != 4 ]]; then
+   echo "$0 lpc_order num_cepstral_coef input.wav output.lpcc"
    exit 1
 fi
 
 lpc_order=$1
-inputfile=$2
-outputfile=$3
+num_cepstral_coef=$2
+#num_cepstral_coef=lpc_order-1;
+inputfile=$3
+outputfile=$4
 
 UBUNTU_SPTK=1
 if [[ $UBUNTU_SPTK == 1 ]]; then
@@ -30,6 +32,7 @@ if [[ $UBUNTU_SPTK == 1 ]]; then
    FRAME="sptk frame"
    WINDOW="sptk window"
    LPC="sptk lpc"
+   lpc2c="sptk lpc2c"
 else
    # or install SPTK building it from its source
    X2X="x2x"
@@ -39,15 +42,15 @@ else
 fi
 
 # Main command for feature extration
-sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
-	$LPC -l 240 -m $lpc_order > $base.lp
+sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 400 -p 80 | $WINDOW -l 400 -L 512 |
+	$LPC -l 400 -m $lpc_order | $lpc2c -m $lpc_order -M $num_cepstral_coef> $base.lpcc
 
 # Our array files need a header with the number of cols and rows:
-ncol=$((lpc_order+1)) # lpc p =>  (gain a1 a2 ... ap) 
-nrow=`$X2X +fa < $base.lp | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
+ncol=$((num_cepstral_coef+1)) # lpc p =>  (gain c1 c2 ... cp) 
+nrow=`$X2X +fa < $base.lpcc | wc -l | perl -ne 'print $_/'$ncol', "\n";'`
 
 # Build fmatrix file by placing nrow and ncol in front, and the data after them
 echo $nrow $ncol | $X2X +aI > $outputfile
-cat $base.lp >> $outputfile
+cat $base.lpcc >> $outputfile
 
 exit

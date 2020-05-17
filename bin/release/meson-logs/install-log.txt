@@ -1,0 +1,10 @@
+# List of files installed by Meson
+# Does not contain files installed by custom scripts.
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/lib/libpav.a
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/bin/gmm_classify
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/bin/gmm_show
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/bin/gmm_train
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/bin/gmm_verify
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/bin/pearson
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/bin/fmatrix_cut
+/mnt/c/Users/Usuario/Desktop/UNI/PAV/bin/fmatrix_show

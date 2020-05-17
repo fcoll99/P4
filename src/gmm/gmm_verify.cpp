@@ -25,26 +25,31 @@ int read_gmms(const Directory &dir, const Ext &ext, const vector<string> &gmm_fi
 
 float verify(const GMM &gmm_candidate, const fmatrix &dat) {
 
-  //TODO: implement verification score based on gmm of the candidate
+  //HECHO: implement verification score based on gmm of the candidate
   /*
     lprobcand is an informative values to be printed as debug information.
     The decision is based on the returned value
    */
 
   float score = 0.0F;
+
+  float lprobcand = gmm_candidate.logprob(dat);
+  score = lprobcand;
   return score;
 }
-
-
 
 float verify(const GMM &gmm_candidate, const GMM & gmm_world, const fmatrix &dat,
 	     float &lprobcand, float &lprobbackground) {
 
-  //TODO: implement verification score based on gmm of the candidate and 'world' model
+  //HECHO: implement verification score based on gmm of the candidate and 'world' model
   float score = 0.0F;
   lprobcand = 0.0F;
   lprobbackground = 0.0F;
 
+  lprobcand = gmm_candidate.logprob(dat);
+  lprobbackground = gmm_world.logprob(dat);
+
+  score = lprobcand - lprobbackground;
 
   return score;
 

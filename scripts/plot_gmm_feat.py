@@ -87,7 +87,7 @@ def limsGMM(means, covs, fStd=3):
         min_ = np.min((min_, means[mix] - fStd * covs[mix] ** 0.5), axis=0)
         max_ = np.max((max_, means[mix] + fStd * covs[mix] ** 0.5), axis=0)
 
-    margin = max(max_ - min_)
+    #margin = max(max_ - min_)
 
     return min_, max_
 
@@ -117,7 +117,7 @@ def plotGMM(fileGMM, xDim, yDim, percents, colorGmm, filesFeat=None, colorFeat=N
     # en el percentil más estrecho sea 1000. Calculamos el más estrecho como el
     # valor mínimo de p*(1-p)
 
-    numSmp = np.ceil(np.max(1000 / (percents * (1 - percents))) ** 0.5)
+    numSmp = int(np.ceil(np.max(1000 / (percents * (1 - percents))) ** 0.5))
 
     x = np.linspace(min_[0], max_[0], numSmp)
     y = np.linspace(min_[1], max_[1], numSmp)
@@ -153,7 +153,7 @@ USAGE='''
 Draws the regions in space covered with a certain probability by a GMM.
 
 Usage:
-    plotGMM [--help|-h] [options] <file-gmm> [<file-feat>...]
+    plotGMM [help|-h] [options] <file-gmm> [<file-feat>...]
 
 Options:
     --yDim INT, -x INT               'x' dimension to use from GMM and feature vectors [default: 0]
